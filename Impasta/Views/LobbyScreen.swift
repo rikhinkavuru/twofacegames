@@ -7,6 +7,7 @@ struct LobbyScreen: View {
     @ObservedObject var viewModel: GameViewModel
     @State private var showSettings = false
     @State private var showCopiedFeedback = false
+    @State private var lobbyTimer: Timer?
     
     // Local state for settings to ensure immediate UI feedback
     @State private var localDifficulty: Difficulty = .medium
@@ -129,6 +130,19 @@ struct LobbyScreen: View {
                                                 .font(.system(size: ScreenScale.font(10)))
                                                 .foregroundColor(.appSoftAmber)
                                         }
+                                        
+                                        Spacer()
+                                        
+                                        // Kick button (host only, can't kick self)
+                                        if isHost && !player.isHost {
+                                            Button {
+                                                Task { await viewModel.kickPlayer(playerId: player.id) }
+                                            } label: {
+                                                Image(systemName: "xmark.circle.fill")
+                                                    .font(.system(size: ScreenScale.font(16)))
+                                                    .foregroundColor(.appDestructive.opacity(0.5))
+                                            }
+                                        }
                                     }
                                     .scaledPadding(.all, 16.0)
                                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -227,8 +241,9 @@ struct LobbyScreen: View {
                     localImposterMax = game.imposterMax
                     
                     // Periodic refresh to ensure lobby stays synced
-                    Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { timer in
-                        Task {
+                    lobbyTimer?.invalidate()
+                    lobbyTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { timer in
+                        Task { @MainActor in
                             if game.phase == .lobby {
                                 await viewModel.refreshState()
                             } else {
@@ -236,6 +251,10 @@ struct LobbyScreen: View {
                             }
                         }
                     }
+                }
+                .onDisappear {
+                    lobbyTimer?.invalidate()
+                    lobbyTimer = nil
                 }
             }
         }

@@ -108,6 +108,14 @@ class SupabaseService {
             .execute()
     }
 
+    func deletePlayer(id: String) async throws {
+        try await client
+            .from("players")
+            .delete()
+            .eq("id", value: id)
+            .execute()
+    }
+
     // MARK: - Realtime Subscriptions
 
     func subscribeToGame(
