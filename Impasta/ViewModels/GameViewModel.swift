@@ -102,8 +102,14 @@ class GameViewModel: ObservableObject {
                 return
             }
             let playerData = try await supabase.createPlayer(gameId: gameData.id, name: playerName)
-            self.game = gameData
+            
+            // Set currentPlayerId first, then add to local players array immediately
+            // to ensure currentPlayer is non-nil before the view re-renders.
             self.currentPlayerId = playerData.id
+            self.players = [playerData]
+            self.game = gameData
+            
+            // Now fetch the full player list (including others already in lobby)
             await fetchPlayers()
             subscribeToRealtime()
         } catch {
@@ -348,6 +354,23 @@ class GameViewModel: ObservableObject {
         ])
     }
 
+    // MARK: - Kick Player (Host only)
+    func kickPlayer(playerId: String) async {
+        guard isHost, let game = game else { return }
+        // Don't allow kicking yourself
+        guard playerId != currentPlayerId else { return }
+        
+        do {
+            try await supabase.deletePlayer(id: playerId)
+            // Remove from local state immediately for responsive UI
+            players.removeAll { $0.id == playerId }
+            sessionScores.removeAll { $0.playerId == playerId }
+        } catch {
+            // Re-fetch to stay in sync if delete failed
+            await fetchPlayers()
+        }
+    }
+
     // MARK: - Refresh State
     func refreshState() async {
         guard let game = game else { return }
@@ -372,6 +395,13 @@ class GameViewModel: ObservableObject {
     func fetchPlayers() async {
         guard let game = game else { return }
         if let data = try? await supabase.fetchPlayers(gameId: game.id) {
+            // Detect if current player was kicked
+            if let currentPlayerId = currentPlayerId,
+               !data.contains(where: { $0.id == currentPlayerId }) {
+                // Current player was removed from the game (kicked)
+                exitGame()
+                return
+            }
             self.players = data
         }
     }
@@ -749,6 +779,7 @@ class GameViewModel: ObservableObject {
     func cleanup() {
         if let channel = realtimeChannel {
             supabase.unsubscribe(channel: channel)
+            realtimeChannel = nil
         }
     }
 }

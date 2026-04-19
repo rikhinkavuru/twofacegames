@@ -1,14 +1,15 @@
 import SwiftUI
 
-// MARK: - Waiting Indicator (bouncing dots)
 struct WaitingIndicator: View {
+    @Environment(\.theme) private var theme
+
     var message: String? = nil
 
     @State private var animating = false
 
     var body: some View {
         VStack(spacing: 16) {
-            HStack(spacing: 4) {
+            HStack(spacing: 6) {
                 ForEach(0..<3, id: \.self) { index in
                     Circle()
                         .fill(dotColor(for: index))
@@ -20,13 +21,14 @@ struct WaitingIndicator: View {
                                 .delay(Double(index) * 0.2),
                             value: animating
                         )
+                        .neonGlow(color: dotColor(for: index))
                 }
             }
 
             if let message = message {
                 Text(message)
                     .font(.appCaption)
-                    .foregroundColor(.appMutedForeground.opacity(0.6))
+                    .foregroundColor(theme.textSecondary.opacity(0.8))
                     .tracking(3)
                     .textCase(.uppercase)
             }
@@ -39,10 +41,14 @@ struct WaitingIndicator: View {
 
     private func dotColor(for index: Int) -> Color {
         switch index {
-        case 0: return .appSoftIndigo
-        case 1: return .appSoftSlate
-        case 2: return .appSoftSage
-        default: return .appPrimary
+        case 0:
+            return theme.accent
+        case 1:
+            return theme.accentSecondary
+        case 2:
+            return theme.success
+        default:
+            return theme.textPrimary
         }
     }
 }

@@ -5,241 +5,440 @@ import UIKit
 
 struct RoleRevealScreen: View {
     @ObservedObject var viewModel: GameViewModel
+    @Environment(\.theme) private var theme
+
     @State private var isFlipped = false
     @State private var showControls = false
+    @State private var animateBackdrop = false
 
     private var isHost: Bool { viewModel.isHost }
 
     var body: some View {
         ZStack {
+            RoleRevealBackdrop(
+                animateBackdrop: animateBackdrop,
+                highlightColor: activeAccent.opacity(0.34),
+                secondaryColor: secondaryAccent.opacity(0.28)
+            )
+
             if let game = viewModel.game, let currentPlayer = viewModel.currentPlayer {
-                let isImposter = currentPlayer.isImposter
-                
-                (isFlipped && isImposter ? Color.appSoftRose.opacity(0.04) : Color.appBackground)
-                    .ignoresSafeArea()
-                    .animation(.easeInOut(duration: 1.0), value: isFlipped)
+                VStack(spacing: ScreenScale.height(24)) {
+                    header(for: currentPlayer)
+                        .scaledPadding(.top, 28.0)
 
-                VStack(spacing: 0) {
-                    // Header (Centered)
-                    VStack(spacing: 16) {
-                        Text("SECRET ROLE")
-                            .font(.appCaption)
-                            .foregroundColor(.appMutedForeground.opacity(0.6))
-                            .tracking(3)
+                    Spacer(minLength: ScreenScale.height(10))
 
-                        Text(isFlipped
-                             ? (isImposter ? "YOU ARE THE IMPOSTER" : "YOU ARE A CIVILIAN")
-                             : "REVEAL YOUR IDENTITY")
-                            .font(.system(size: ScreenScale.font(22), weight: .medium))
-                            .tracking(-0.5)
-                            .foregroundColor(.appForeground)
-                            .multilineTextAlignment(.center)
-                    }
-                    .frame(maxWidth: .infinity)
-                    .scaledPadding(.top, 60.0)
-                    
-                    Spacer(minLength: 40)
-
-                    // 3D Flip Card (Centered)
                     flipCard(game: game, currentPlayer: currentPlayer)
-                        .scaledFrame(height: 380)
-                        .scaledPadding(.horizontal, 32.0)
+                        .scaledFrame(height: 420)
                         .onTapGesture {
                             guard !isFlipped else { return }
-                            withAnimation(.spring(response: 0.7, dampingFraction: 0.8)) {
+                            #if canImport(UIKit)
+                            #if os(iOS)
+                            UIImpactFeedbackGenerator(style: .soft).impactOccurred()
+                            #endif
+                            #endif
+                            withAnimation(.spring(response: 0.82, dampingFraction: 0.82)) {
                                 isFlipped = true
                             }
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                withAnimation(.easeInOut(duration: 0.3)) {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.45) {
+                                withAnimation(.smoothSpring) {
                                     showControls = true
                                 }
                             }
                         }
-                    
-                    Spacer(minLength: 40)
 
-                    // Controls (Bottom)
-                    if showControls {
-                        controlsView
-                            .transition(.move(edge: .bottom).combined(with: .opacity))
-                            .scaledPadding(.bottom, 40.0)
-                    } else {
-                        Spacer(minLength: 40)
-                    }
+                    Spacer(minLength: ScreenScale.height(10))
+
+                    controlsView
+                        .opacity(showControls ? 1 : 0)
+                        .offset(y: showControls ? 0 : 20)
+                        .animation(.smoothSpring, value: showControls)
+
+                    Spacer(minLength: ScreenScale.height(12))
                 }
-                .scaledPadding(.horizontal, 32.0)
-                
-                // Top Right Controls (Absolute Positioned)
-                VStack {
-                    HStack {
-                        Spacer()
-                        
-                        Button {
-                            #if canImport(UIKit)
-                    #if os(iOS)
-                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                    #endif
-                    #endif
-                            viewModel.exitGame()
-                        } label: {
-                            Image(systemName: "house.fill")
-                                .font(.system(size: ScreenScale.font(14), weight: .medium))
-                                .foregroundColor(.black.opacity(0.3))
-                                .scaledPadding(.all, 10.0)
-                                .background(Color.black.opacity(0.04))
-                                .clipShape(Circle())
-                        }
-                        .scaledPadding(.trailing, 20.0)
-                        .scaledPadding(.top, 60.0)
-                    }
-                    Spacer()
-                }
+                .scaledPadding(.horizontal, 22.0)
+
+                homeButtonOverlay
+            }
+        }
+        .onAppear {
+            withAnimation(.easeInOut(duration: 10).repeatForever(autoreverses: true)) {
+                animateBackdrop = true
             }
         }
     }
 
-    // MARK: - Controls View
+    private var activeAccent: Color {
+        if let currentPlayer = viewModel.currentPlayer, isFlipped {
+            return currentPlayer.isImposter ? theme.imposter : theme.civilian
+        }
+        return theme.accent
+    }
+
+    private var secondaryAccent: Color {
+        if let currentPlayer = viewModel.currentPlayer, isFlipped {
+            return currentPlayer.isImposter ? theme.warning : theme.success
+        }
+        return theme.accentSecondary
+    }
+
+    private func header(for currentPlayer: Player) -> some View {
+        VStack(spacing: ScreenScale.height(18)) {
+            HStack(spacing: 10) {
+                statusChip(label: "SECURE CHANNEL", color: theme.accent)
+                statusChip(label: currentPlayer.isImposter ? "IMPOSTER SIGNAL" : "CIVILIAN SIGNAL", color: currentPlayer.isImposter ? theme.imposter : theme.civilian)
+            }
+
+            VStack(spacing: 12) {
+                Text("ROLE REVEAL")
+                    .font(.appCaption)
+                    .foregroundColor(theme.textSecondary.opacity(0.85))
+                    .tracking(3)
+
+                Text(isFlipped
+                     ? (currentPlayer.isImposter ? "YOU ARE THE IMPOSTER" : "YOU ARE A CIVILIAN")
+                     : "REVEAL YOUR IDENTITY")
+                    .font(.system(size: ScreenScale.font(28), weight: .bold))
+                    .tracking(-1)
+                    .foregroundColor(theme.textPrimary)
+                    .multilineTextAlignment(.center)
+
+                Text(isFlipped
+                     ? (currentPlayer.isImposter
+                        ? "Your clue feed is live. Blend into the conversation."
+                        : "Protect the word. Watch the tells. Vote with intent.")
+                     : "Tap the encrypted card when you are ready.")
+                    .font(.system(size: ScreenScale.font(13), weight: .medium))
+                    .foregroundColor(theme.textSecondary)
+                    .multilineTextAlignment(.center)
+            }
+        }
+    }
+
+    private func statusChip(label: String, color: Color) -> some View {
+        Text(label)
+            .font(.system(size: ScreenScale.font(10), weight: .bold))
+            .tracking(1.8)
+            .foregroundColor(color)
+            .scaledPadding(.horizontal, 12.0)
+            .scaledPadding(.vertical, 8.0)
+            .background(
+                Capsule()
+                    .fill(theme.surface.opacity(0.72))
+                    .overlay(
+                        Capsule()
+                            .stroke(color.opacity(0.42), lineWidth: 1)
+                    )
+            )
+            .neonGlow(color: color)
+    }
+
     private var controlsView: some View {
         Group {
-            if isHost {
-                VStack(spacing: 16) {
-                    Button(action: {
-                        Task { await viewModel.proceedToClues() }
-                    }) {
-                        HStack(spacing: 12) {
-                            Text("EVERYONE READY")
-                                .font(.system(size: ScreenScale.font(14), weight: .medium))
-                                .tracking(1)
+            if showControls {
+                VStack(spacing: ScreenScale.height(18)) {
+                    if isHost {
+                        VStack(spacing: ScreenScale.height(14)) {
+                            Text("HOST CONTROL")
+                                .font(.appCaption)
+                                .foregroundColor(theme.textSecondary.opacity(0.78))
+                                .tracking(3)
 
-                            Image(systemName: "chevron.right")
-                                .font(.system(size: ScreenScale.font(16), weight: .medium))
+                            PillButton(
+                                title: "EVERYONE READY",
+                                trailingIcon: "chevron.right",
+                                style: .primary
+                            ) {
+                                Task { await viewModel.proceedToClues() }
+                            }
                         }
-                        .frame(maxWidth: .infinity)
-                        .scaledPadding(.vertical, 20.0)
-                        .background(Color.black)
-                        .foregroundColor(.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
-                        .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: 2)
+                    } else {
+                        VStack(spacing: ScreenScale.height(18)) {
+                            WaitingIndicator(message: "Waiting for host")
+
+                            Button {
+                                Task { await viewModel.refreshState() }
+                            } label: {
+                                Label("STUCK? REFRESH", systemImage: "arrow.clockwise")
+                                    .font(.system(size: ScreenScale.font(12), weight: .bold))
+                                    .foregroundColor(theme.accentSecondary)
+                                    .tracking(1)
+                            }
+                        }
                     }
                 }
-            } else {
-                VStack(spacing: 16) {
-                    WaitingIndicator(message: "Waiting for host")
-
-                    Button(action: {
-                        Task { await viewModel.refreshState() }
-                    }) {
-                        HStack {
-                            Image(systemName: "arrow.clockwise")
-                            Text("STUCK? REFRESH")
-                        }
-                        .font(.system(size: ScreenScale.font(12), weight: .medium))
-                        .foregroundColor(.appPrimary.opacity(0.6))
-                    }
-                    .scaledPadding(.top, 60.0)
-                }
+                .frame(maxWidth: .infinity)
+                .scaledPadding(.all, 22.0)
+                .background(panelBackground(accent: activeAccent))
+                .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
+                .overlay(panelBorder(accent: activeAccent, lineWidth: 1))
+                .premiumShadow()
             }
         }
     }
 
-    // MARK: - Flip Card
     private func flipCard(game: Game, currentPlayer: Player) -> some View {
         ZStack {
-            // Front
             frontCard
                 .opacity(isFlipped ? 0 : 1)
-                .rotation3DEffect(
-                    .degrees(isFlipped ? 180 : 0),
-                    axis: (x: 0, y: 1, z: 0)
-                )
+                .rotation3DEffect(.degrees(isFlipped ? 180 : 0), axis: (x: 0, y: 1, z: 0))
 
-            // Back
             backCard(game: game, currentPlayer: currentPlayer)
                 .opacity(isFlipped ? 1 : 0)
-                .rotation3DEffect(
-                    .degrees(isFlipped ? 0 : -180),
-                    axis: (x: 0, y: 1, z: 0)
-                )
+                .rotation3DEffect(.degrees(isFlipped ? 0 : -180), axis: (x: 0, y: 1, z: 0))
         }
+        .animation(.spring(response: 0.82, dampingFraction: 0.82), value: isFlipped)
     }
 
     private var frontCard: some View {
-        VStack(spacing: 32) {
+        VStack(spacing: ScreenScale.height(26)) {
             ZStack {
                 Circle()
-                    .fill(Color.appSoftLavender.opacity(0.1))
-                    .scaledFrame(width: 96, height: 96)
+                    .stroke(theme.border.opacity(0.7), lineWidth: 1)
+                    .scaledFrame(width: 150, height: 150)
+                    .overlay(
+                        Circle()
+                            .trim(from: 0.08, to: 0.72)
+                            .stroke(theme.accent, style: StrokeStyle(lineWidth: 4, lineCap: .round))
+                            .rotationEffect(.degrees(animateBackdrop ? 360 : 0))
+                            .animation(.linear(duration: 12).repeatForever(autoreverses: false), value: animateBackdrop)
+                    )
 
                 Circle()
-                    .fill(Color.appSoftIndigo.opacity(0.1))
-                    .scaledFrame(width: 64, height: 64)
+                    .fill(
+                        RadialGradient(
+                            colors: [theme.accentSecondary.opacity(0.45), theme.surface.opacity(0.15), .clear],
+                            center: .center,
+                            startRadius: 12,
+                            endRadius: 90
+                        )
+                    )
+                    .scaledFrame(width: 110, height: 110)
 
-                Circle()
-                    .fill(Color.appSoftIndigo)
-                    .scaledFrame(width: 32, height: 32)
+                Image(systemName: "wave.3.right.circle.fill")
+                    .font(.system(size: ScreenScale.font(54), weight: .bold))
+                    .foregroundStyle(theme.textPrimary, theme.accent)
+                    .neonGlow(color: theme.accent)
             }
 
-            Text("TAP TO FLIP")
-                .font(.system(size: ScreenScale.font(14), weight: .medium))
-                .foregroundColor(.appMutedForeground.opacity(0.6))
-                .tracking(-0.3)
+            VStack(spacing: 10) {
+                Text("ENCRYPTED ROLE CARD")
+                    .font(.appCaption)
+                    .foregroundColor(theme.textSecondary.opacity(0.8))
+                    .tracking(3)
+
+                Text("TAP TO DECRYPT")
+                    .font(.system(size: ScreenScale.font(20), weight: .bold))
+                    .foregroundColor(theme.textPrimary)
+                    .tracking(-0.8)
+
+                Text("Pass the device privately, then reveal.")
+                    .font(.system(size: ScreenScale.font(13), weight: .medium))
+                    .foregroundColor(theme.textSecondary)
+            }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.white)
-        .clipShape(RoundedRectangle(cornerRadius: 48, style: .continuous))
+        .scaledPadding(.all, 28.0)
+        .background(panelBackground(accent: theme.accentSecondary))
+        .clipShape(RoundedRectangle(cornerRadius: 40, style: .continuous))
+        .overlay(panelBorder(accent: theme.accent, lineWidth: 1.2))
         .premiumShadow()
-        .overlay(
-            RoundedRectangle(cornerRadius: 48, style: .continuous)
-                .stroke(Color.appBorder.opacity(0.5), lineWidth: 1)
-        )
     }
 
     private func backCard(game: Game, currentPlayer: Player) -> some View {
         let isImposter = currentPlayer.isImposter
-        return VStack(spacing: 32) {
-            Circle()
-                .fill(isImposter ? Color(hex: "FFB3BA").opacity(0.4) : Color(hex: "A8E6C1").opacity(0.4))
-                .scaledFrame(width: 96, height: 96)
-                .overlay(
-                    Image(systemName: isImposter ? "eye.slash.fill" : "eye.fill")
-                        .font(.system(size: ScreenScale.font(40)))
-                        .foregroundColor(isImposter ? Color(hex: "D32F2F") : Color(hex: "00796B"))
-                )
+        let accent = isImposter ? theme.imposter : theme.civilian
+        let supporting = isImposter ? theme.warning : theme.success
 
-            VStack(spacing: 16) {
+        return VStack(spacing: ScreenScale.height(24)) {
+            ZStack {
+                Circle()
+                    .fill(accent.opacity(0.18))
+                    .scaledFrame(width: 128, height: 128)
+                    .overlay(
+                        Circle()
+                            .stroke(accent.opacity(0.5), lineWidth: 1.5)
+                    )
+                    .neonGlow(color: accent)
+
+                Image(systemName: isImposter ? "eye.slash.fill" : "eye.fill")
+                    .font(.system(size: ScreenScale.font(48), weight: .bold))
+                    .foregroundColor(accent)
+            }
+
+            VStack(spacing: 12) {
                 Text(isImposter ? "YOUR CLUE" : "THE SECRET WORD")
                     .font(.appCaption)
-                    .foregroundColor(.appMutedForeground.opacity(0.6))
+                    .foregroundColor(theme.textSecondary.opacity(0.8))
                     .tracking(3)
 
                 Text((isImposter ? game.imposterClue : game.word) ?? "")
-                    .font(.system(size: ScreenScale.font(44), weight: .medium))
-                    .tracking(-2)
-                    .foregroundColor(isImposter ? Color(hex: "D32F2F") : Color(hex: "00796B"))
+                    .font(.system(size: ScreenScale.font(42), weight: .black))
+                    .foregroundColor(theme.textPrimary)
                     .textCase(.uppercase)
+                    .tracking(-1.8)
                     .multilineTextAlignment(.center)
-                    .minimumScaleFactor(0.5)
+                    .minimumScaleFactor(0.45)
                     .lineLimit(2)
+                    .neonGlow(color: accent)
+
+                Text(isImposter ? "Blend in with clues that feel informed, not obvious." : "Guard the signal and track suspicious clues.")
+                    .font(.system(size: ScreenScale.font(13), weight: .medium))
+                    .foregroundColor(theme.textSecondary)
+                    .multilineTextAlignment(.center)
             }
 
-            if isImposter {
-                Text("Blend in. Give clues that sound like you know the word.")
-                    .font(.system(size: ScreenScale.font(12), weight: .medium))
-                    .foregroundColor(.appMutedForeground.opacity(0.8))
-                    .multilineTextAlignment(.center)
-                    .frame(maxWidth: 200)
+            HStack(spacing: 12) {
+                roleMetric(title: "ROLE", value: isImposter ? "IMPOSTER" : "CIVILIAN", accent: accent)
+                roleMetric(title: "MODE", value: isImposter ? "DECEIVE" : "DETECT", accent: supporting)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.white)
-        .clipShape(RoundedRectangle(cornerRadius: 48, style: .continuous))
+        .scaledPadding(.all, 28.0)
+        .background(panelBackground(accent: accent))
+        .clipShape(RoundedRectangle(cornerRadius: 40, style: .continuous))
+        .overlay(panelBorder(accent: accent, lineWidth: 1.4))
         .premiumShadow()
+    }
+
+    private func roleMetric(title: String, value: String, accent: Color) -> some View {
+        VStack(spacing: 8) {
+            Text(title)
+                .font(.system(size: ScreenScale.font(10), weight: .bold))
+                .tracking(2)
+                .foregroundColor(theme.textSecondary.opacity(0.85))
+            Text(value)
+                .font(.system(size: ScreenScale.font(12), weight: .bold))
+                .foregroundColor(accent)
+                .tracking(1)
+        }
+        .frame(maxWidth: .infinity)
+        .scaledPadding(.vertical, 12.0)
+        .background(theme.surfaceElevated.opacity(0.8))
+        .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
         .overlay(
-            RoundedRectangle(cornerRadius: 48, style: .continuous)
-                .stroke(
-                    isImposter ? Color(hex: "D32F2F").opacity(0.3) : Color(hex: "00796B").opacity(0.3),
-                    lineWidth: 2
-                )
+            RoundedRectangle(cornerRadius: 18, style: .continuous)
+                .stroke(accent.opacity(0.35), lineWidth: 1)
         )
+    }
+
+    private func panelBackground(accent: Color) -> some View {
+        RoundedRectangle(cornerRadius: 30, style: .continuous)
+            .fill(
+                LinearGradient(
+                    colors: [theme.surface.opacity(0.94), theme.surfaceElevated.opacity(0.88)],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 30, style: .continuous)
+                    .fill(
+                        RadialGradient(
+                            colors: [accent.opacity(0.2), .clear],
+                            center: .topTrailing,
+                            startRadius: 10,
+                            endRadius: 220
+                        )
+                    )
+            )
+    }
+
+    private func panelBorder(accent: Color, lineWidth: CGFloat) -> some View {
+        RoundedRectangle(cornerRadius: 30, style: .continuous)
+            .stroke(
+                LinearGradient(
+                    colors: [accent.opacity(0.7), theme.border.opacity(0.75), .clear],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                ),
+                lineWidth: lineWidth
+            )
+    }
+
+    private var homeButtonOverlay: some View {
+        VStack {
+            HStack {
+                Spacer()
+
+                Button {
+                    #if canImport(UIKit)
+                    #if os(iOS)
+                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                    #endif
+                    #endif
+                    viewModel.exitGame()
+                } label: {
+                    Image(systemName: "house.fill")
+                        .font(.system(size: ScreenScale.font(14), weight: .bold))
+                        .foregroundColor(theme.textPrimary)
+                        .scaledPadding(.all, 12.0)
+                        .background(
+                            Circle()
+                                .fill(theme.surface.opacity(0.82))
+                                .overlay(Circle().stroke(theme.border.opacity(0.6), lineWidth: 1))
+                        )
+                        .neonGlow(color: theme.accentSecondary)
+                }
+            }
+            .scaledPadding(.horizontal, 20.0)
+            .scaledPadding(.top, 20.0)
+
+            Spacer()
+        }
+    }
+}
+
+private struct RoleRevealBackdrop: View {
+    @Environment(\.theme) private var theme
+
+    let animateBackdrop: Bool
+    let highlightColor: Color
+    let secondaryColor: Color
+
+    var body: some View {
+        ZStack {
+            LinearGradient(
+                colors: [theme.background, theme.surfaceElevated.opacity(0.92), theme.background],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
+
+            RoundedRectangle(cornerRadius: 0)
+                .stroke(theme.border.opacity(0.14), style: StrokeStyle(lineWidth: 1, dash: [6, 8]))
+                .rotationEffect(.degrees(animateBackdrop ? 4 : -4))
+                .scaleEffect(1.15)
+                .ignoresSafeArea()
+
+            Circle()
+                .fill(highlightColor)
+                .scaledFrame(width: 280, height: 280)
+                .blur(radius: 48)
+                .offset(x: animateBackdrop ? 120 : -130, y: -260)
+
+            Circle()
+                .fill(secondaryColor)
+                .scaledFrame(width: 260, height: 260)
+                .blur(radius: 50)
+                .offset(x: animateBackdrop ? -110 : 140, y: 280)
+
+            VStack {
+                Spacer()
+                Rectangle()
+                    .fill(
+                        LinearGradient(
+                            colors: [theme.border.opacity(0.06), .clear, theme.border.opacity(0.06)],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    )
+                    .scaledFrame(height: 140)
+                    .blur(radius: 18)
+                    .offset(y: animateBackdrop ? 12 : -12)
+                Spacer()
+            }
+            .ignoresSafeArea()
+        }
     }
 }
