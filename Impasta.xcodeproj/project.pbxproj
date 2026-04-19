@@ -1,0 +1,421 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 55;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		08D02AC228A846489FA3298C /* Impasta/Views/LobbyScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D02AC228A846489FA3298C_REF /* Impasta/Views/LobbyScreen.swift */; };
+		179F4A8F1E184D3C95B040BB /* Impasta/Views/ResultsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179F4A8F1E184D3C95B040BB_REF /* Impasta/Views/ResultsScreen.swift */; };
+		2171A6930AAB4D9C95CDA09A /* Impasta/ViewModels/GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BB18E66CEE4F48B6322156 /* Impasta/ViewModels/GameViewModel.swift */; };
+		32E5DB24F4C2404EA379F242 /* Impasta/Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D24E2134AE2642B8BD378254 /* Impasta/Assets.xcassets */; };
+		361C8281CE0341888E96970C /* Impasta/Components/SegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28405BD1D804C78B3139019 /* Impasta/Components/SegmentedControl.swift */; };
+		3D8CDA4C80AB44BD92CC1C78 /* Impasta/Components/PillButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD2FF4839374B1296A8FEDB /* Impasta/Components/PillButton.swift */; };
+		5725E085F4384541976259C3 /* Impasta/Utilities/ClueRound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C63EF64ED54CA7A2BB5443 /* Impasta/Utilities/ClueRound.swift */; };
+		5B901BFE432C436E95C8E2F9 /* Impasta/Views/CluePhaseScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B901BFE432C436E95C8E2F9_REF /* Impasta/Views/CluePhaseScreen.swift */; };
+		718215A72D304FC2ADC95365_BF /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 718215A72D304FC2ADC95366 /* Supabase */; };
+		95E9417D59E340C4BF619106 /* Impasta/Theme/AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A62837D112424CB9AC2C36 /* Impasta/Theme/AppTheme.swift */; };
+		A6C189B47FC74454BDB8C644 /* Impasta/App/ImpastaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DD4EE9E077C4C78A9F59F41 /* Impasta/App/ImpastaApp.swift */; };
+		AC71BEB743304F908F81A68F /* Impasta/Views/HomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC71BEB743304F908F81A68F_REF /* Impasta/Views/HomeScreen.swift */; };
+		B8A9BE73D8D348F98D852741 /* Impasta/App/ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A2CBE204194345BBCF6C7D /* Impasta/App/ContentView.swift */; };
+		BAF7300BA9B94CED86D67894 /* Impasta/Utilities/GameUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30FC4ABFECF4B97B39AA06E /* Impasta/Utilities/GameUtils.swift */; };
+		C35901373E6148CB9477AE3E /* Impasta/Services/SupabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35901373E6148CB9477AE3E_REF /* Impasta/Services/SupabaseService.swift */; };
+		D6E46C50E2B74CB3AEA2B02A /* Impasta/Models/GameSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDBEB2C88CD41A3823E9A6C /* Impasta/Models/GameSettings.swift */; };
+		D8A70C5E1F724EB0BA820E66 /* Impasta/Models/GameModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889DB1352CE3476DAA348518 /* Impasta/Models/GameModels.swift */; };
+		E259A2C24BF447F7AD0D977F /* Impasta/Services/WordGeneratorService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E259A2C24BF447F7AD0D977F_REF /* Impasta/Services/WordGeneratorService.swift */; };
+		E2FB9C3BEA5249F6B73CA70E /* Impasta/Views/RoleRevealScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FB9C3BEA5249F6B73CA70E_REF /* Impasta/Views/RoleRevealScreen.swift */; };
+		E54D9D5C4D8C42A6A7708EDC /* Impasta/Views/VotingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54D9D5C4D8C42A6A7708EDC_REF /* Impasta/Views/VotingScreen.swift */; };
+		E9B837820EBE4C24AFF0D604 /* Impasta/Models/WordBank.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8590C874386E4BCF8A9B75BD /* Impasta/Models/WordBank.swift */; };
+		F99C839E54284E26917767C8 /* Impasta/Components/WaitingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E499902BE8FC4C6183DEDB14 /* Impasta/Components/WaitingIndicator.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		01C63EF64ED54CA7A2BB5443 /* Impasta/Utilities/ClueRound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Impasta/Utilities/ClueRound.swift; sourceTree = SOURCE_ROOT; };
+		0247C66D9E5A4950AA638C51 /* Impasta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Impasta.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		08D02AC228A846489FA3298C_REF /* Impasta/Views/LobbyScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Impasta/Views/LobbyScreen.swift; sourceTree = SOURCE_ROOT; };
+		0CDBEB2C88CD41A3823E9A6C /* Impasta/Models/GameSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Impasta/Models/GameSettings.swift; sourceTree = SOURCE_ROOT; };
+		179F4A8F1E184D3C95B040BB_REF /* Impasta/Views/ResultsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Impasta/Views/ResultsScreen.swift; sourceTree = SOURCE_ROOT; };
+		3FD2FF4839374B1296A8FEDB /* Impasta/Components/PillButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Impasta/Components/PillButton.swift; sourceTree = SOURCE_ROOT; };
+		5B901BFE432C436E95C8E2F9_REF /* Impasta/Views/CluePhaseScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Impasta/Views/CluePhaseScreen.swift; sourceTree = SOURCE_ROOT; };
+		67A2CBE204194345BBCF6C7D /* Impasta/App/ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Impasta/App/ContentView.swift; sourceTree = SOURCE_ROOT; };
+		8590C874386E4BCF8A9B75BD /* Impasta/Models/WordBank.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Impasta/Models/WordBank.swift; sourceTree = SOURCE_ROOT; };
+		889DB1352CE3476DAA348518 /* Impasta/Models/GameModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Impasta/Models/GameModels.swift; sourceTree = SOURCE_ROOT; };
+		8DD4EE9E077C4C78A9F59F41 /* Impasta/App/ImpastaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Impasta/App/ImpastaApp.swift; sourceTree = SOURCE_ROOT; };
+		94A62837D112424CB9AC2C36 /* Impasta/Theme/AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Impasta/Theme/AppTheme.swift; sourceTree = SOURCE_ROOT; };
+		A28405BD1D804C78B3139019 /* Impasta/Components/SegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Impasta/Components/SegmentedControl.swift; sourceTree = SOURCE_ROOT; };
+		AC71BEB743304F908F81A68F_REF /* Impasta/Views/HomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Impasta/Views/HomeScreen.swift; sourceTree = SOURCE_ROOT; };
+		B30FC4ABFECF4B97B39AA06E /* Impasta/Utilities/GameUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Impasta/Utilities/GameUtils.swift; sourceTree = SOURCE_ROOT; };
+		C35901373E6148CB9477AE3E_REF /* Impasta/Services/SupabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Impasta/Services/SupabaseService.swift; sourceTree = SOURCE_ROOT; };
+		C8BB18E66CEE4F48B6322156 /* Impasta/ViewModels/GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Impasta/ViewModels/GameViewModel.swift; sourceTree = SOURCE_ROOT; };
+		D24E2134AE2642B8BD378254 /* Impasta/Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Impasta/Assets.xcassets; sourceTree = SOURCE_ROOT; };
+		E259A2C24BF447F7AD0D977F_REF /* Impasta/Services/WordGeneratorService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Impasta/Services/WordGeneratorService.swift; sourceTree = SOURCE_ROOT; };
+		E2FB9C3BEA5249F6B73CA70E_REF /* Impasta/Views/RoleRevealScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Impasta/Views/RoleRevealScreen.swift; sourceTree = SOURCE_ROOT; };
+		E499902BE8FC4C6183DEDB14 /* Impasta/Components/WaitingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Impasta/Components/WaitingIndicator.swift; sourceTree = SOURCE_ROOT; };
+		E54D9D5C4D8C42A6A7708EDC_REF /* Impasta/Views/VotingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Impasta/Views/VotingScreen.swift; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		718215A72D304FC2ADC95365 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				718215A72D304FC2ADC95365_BF /* Supabase in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		23C75EBB78354389932C4D13 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0247C66D9E5A4950AA638C51 /* Impasta.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2DD7B5AAD5394371B8BB8171 = {
+			isa = PBXGroup;
+			children = (
+				A769670007844690B75B718D /* Impasta */,
+				23C75EBB78354389932C4D13 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A200670007844690B75B718D /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				C8BB18E66CEE4F48B6322156 /* Impasta/ViewModels/GameViewModel.swift */,
+			);
+			name = ViewModels;
+			sourceTree = "<group>";
+		};
+		A300670007844690B75B718D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				5B901BFE432C436E95C8E2F9_REF /* Impasta/Views/CluePhaseScreen.swift */,
+				E2FB9C3BEA5249F6B73CA70E_REF /* Impasta/Views/RoleRevealScreen.swift */,
+				E54D9D5C4D8C42A6A7708EDC_REF /* Impasta/Views/VotingScreen.swift */,
+				AC71BEB743304F908F81A68F_REF /* Impasta/Views/HomeScreen.swift */,
+				08D02AC228A846489FA3298C_REF /* Impasta/Views/LobbyScreen.swift */,
+				179F4A8F1E184D3C95B040BB_REF /* Impasta/Views/ResultsScreen.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		A400670007844690B75B718D /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				C35901373E6148CB9477AE3E_REF /* Impasta/Services/SupabaseService.swift */,
+				E259A2C24BF447F7AD0D977F_REF /* Impasta/Services/WordGeneratorService.swift */,
+			);
+			name = Services;
+			sourceTree = "<group>";
+		};
+		A500670007844690B75B718D /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				B30FC4ABFECF4B97B39AA06E /* Impasta/Utilities/GameUtils.swift */,
+				01C63EF64ED54CA7A2BB5443 /* Impasta/Utilities/ClueRound.swift */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
+		A600670007844690B75B718D /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				A28405BD1D804C78B3139019 /* Impasta/Components/SegmentedControl.swift */,
+				E499902BE8FC4C6183DEDB14 /* Impasta/Components/WaitingIndicator.swift */,
+				3FD2FF4839374B1296A8FEDB /* Impasta/Components/PillButton.swift */,
+			);
+			name = Components;
+			sourceTree = "<group>";
+		};
+		A769670007844690B75B718D /* Impasta */ = {
+			isa = PBXGroup;
+			children = (
+				B9006933934B495393043811 /* App */,
+				E3647CEA30B84CF886693E4B /* Models */,
+				E3FEF0F17D6840CCA95CA59E /* Theme */,
+				A200670007844690B75B718D /* ViewModels */,
+				A300670007844690B75B718D /* Views */,
+				A400670007844690B75B718D /* Services */,
+				A500670007844690B75B718D /* Utilities */,
+				A600670007844690B75B718D /* Components */,
+				D24E2134AE2642B8BD378254 /* Impasta/Assets.xcassets */,
+			);
+			name = Impasta;
+			sourceTree = "<group>";
+		};
+		B9006933934B495393043811 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				8DD4EE9E077C4C78A9F59F41 /* Impasta/App/ImpastaApp.swift */,
+				67A2CBE204194345BBCF6C7D /* Impasta/App/ContentView.swift */,
+			);
+			name = App;
+			sourceTree = "<group>";
+		};
+		E3647CEA30B84CF886693E4B /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				8590C874386E4BCF8A9B75BD /* Impasta/Models/WordBank.swift */,
+				889DB1352CE3476DAA348518 /* Impasta/Models/GameModels.swift */,
+				0CDBEB2C88CD41A3823E9A6C /* Impasta/Models/GameSettings.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		E3FEF0F17D6840CCA95CA59E /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				94A62837D112424CB9AC2C36 /* Impasta/Theme/AppTheme.swift */,
+			);
+			name = Theme;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8FD084F6B6BC4449B207625A /* Impasta */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3DAAAF43652F46B1A700DDFA /* Build configuration list for PBXNativeTarget "Impasta" */;
+			buildPhases = (
+				D6020D00ECDF483C990D00FE /* Sources */,
+				718215A72D304FC2ADC95365 /* Frameworks */,
+				CE24F20D67CB4F01AA60DD11 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Impasta;
+			packageProductDependencies = (
+				718215A72D304FC2ADC95366 /* Supabase */,
+			);
+			productName = Impasta;
+			productReference = 0247C66D9E5A4950AA638C51 /* Impasta.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		17C1949AD03846A896A36133 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 2640;
+				TargetAttributes = {
+					8FD084F6B6BC4449B207625A = {
+						CreatedOnToolsVersion = 16.0;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 3DAAAF43652F46B1A700DDFA /* Build configuration list for PBXNativeTarget "Impasta" */;
+			compatibilityVersion = "Xcode 13.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 2DD7B5AAD5394371B8BB8171;
+			packageReferences = (
+				718215A72D304FC2ADC95367 /* XCRemoteSwiftPackageReference "supabase-swift" */,
+			);
+			productRefGroup = 23C75EBB78354389932C4D13 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8FD084F6B6BC4449B207625A /* Impasta */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CE24F20D67CB4F01AA60DD11 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				32E5DB24F4C2404EA379F242 /* Impasta/Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D6020D00ECDF483C990D00FE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2171A6930AAB4D9C95CDA09A /* Impasta/ViewModels/GameViewModel.swift in Sources */,
+				A6C189B47FC74454BDB8C644 /* Impasta/App/ImpastaApp.swift in Sources */,
+				B8A9BE73D8D348F98D852741 /* Impasta/App/ContentView.swift in Sources */,
+				E9B837820EBE4C24AFF0D604 /* Impasta/Models/WordBank.swift in Sources */,
+				D8A70C5E1F724EB0BA820E66 /* Impasta/Models/GameModels.swift in Sources */,
+				D6E46C50E2B74CB3AEA2B02A /* Impasta/Models/GameSettings.swift in Sources */,
+				BAF7300BA9B94CED86D67894 /* Impasta/Utilities/GameUtils.swift in Sources */,
+				5725E085F4384541976259C3 /* Impasta/Utilities/ClueRound.swift in Sources */,
+				361C8281CE0341888E96970C /* Impasta/Components/SegmentedControl.swift in Sources */,
+				F99C839E54284E26917767C8 /* Impasta/Components/WaitingIndicator.swift in Sources */,
+				3D8CDA4C80AB44BD92CC1C78 /* Impasta/Components/PillButton.swift in Sources */,
+				95E9417D59E340C4BF619106 /* Impasta/Theme/AppTheme.swift in Sources */,
+				5B901BFE432C436E95C8E2F9 /* Impasta/Views/CluePhaseScreen.swift in Sources */,
+				E2FB9C3BEA5249F6B73CA70E /* Impasta/Views/RoleRevealScreen.swift in Sources */,
+				E54D9D5C4D8C42A6A7708EDC /* Impasta/Views/VotingScreen.swift in Sources */,
+				AC71BEB743304F908F81A68F /* Impasta/Views/HomeScreen.swift in Sources */,
+				08D02AC228A846489FA3298C /* Impasta/Views/LobbyScreen.swift in Sources */,
+				179F4A8F1E184D3C95B040BB /* Impasta/Views/ResultsScreen.swift in Sources */,
+				C35901373E6148CB9477AE3E /* Impasta/Services/SupabaseService.swift in Sources */,
+				E259A2C24BF447F7AD0D977F /* Impasta/Services/WordGeneratorService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		41E25B0A6EF24147B67CCDA5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = BL22M852A4;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Two Face";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortrait,UIInterfaceOrientationPortraitUpsideDown,UIInterfaceOrientationLandscapeLeft,UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rikhinkavuru.twofaceRK;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		43DDD0BF2479416F99A98010 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = BL22M852A4;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Two Face";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortrait,UIInterfaceOrientationPortraitUpsideDown,UIInterfaceOrientationLandscapeLeft,UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rikhinkavuru.twofaceRK;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3DAAAF43652F46B1A700DDFA /* Build configuration list for PBXNativeTarget "Impasta" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				43DDD0BF2479416F99A98010 /* Debug */,
+				41E25B0A6EF24147B67CCDA5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		718215A72D304FC2ADC95367 /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/supabase/supabase-swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		718215A72D304FC2ADC95366 /* Supabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 718215A72D304FC2ADC95367 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Supabase;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 17C1949AD03846A896A36133 /* Project object */;
+}
