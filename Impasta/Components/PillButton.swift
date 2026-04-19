@@ -1,7 +1,8 @@
 import SwiftUI
 
-// MARK: - Pill Button
 struct PillButton: View {
+    @Environment(\.theme) private var theme
+
     let title: String
     var icon: String? = nil
     var leadingIcon: String? = nil
@@ -14,33 +15,45 @@ struct PillButton: View {
         case primary
         case secondary
         case destructive
-        case subtle // New: subtle color accent
+        case subtle
     }
 
     private var backgroundColor: Color {
         switch style {
-        case .primary: return .appPrimary
-        case .secondary: return .appSecondary
-        case .destructive: return .appDestructive.opacity(0.1)
-        case .subtle: return .appSoftIndigo.opacity(0.08)
+        case .primary:
+            return theme.accent
+        case .secondary:
+            return theme.surface
+        case .destructive:
+            return theme.destructive.opacity(0.14)
+        case .subtle:
+            return theme.accentSecondary.opacity(0.14)
         }
     }
 
     private var foregroundColor: Color {
         switch style {
-        case .primary: return .white
-        case .secondary: return .appForeground
-        case .destructive: return .appDestructive
-        case .subtle: return .appSoftIndigo
+        case .primary:
+            return theme.textOnAccent
+        case .secondary:
+            return theme.textPrimary
+        case .destructive:
+            return theme.destructive
+        case .subtle:
+            return theme.accentSecondary
         }
     }
 
     private var borderColor: Color {
         switch style {
-        case .primary: return .clear
-        case .secondary: return .appBorder
-        case .destructive: return .appDestructive.opacity(0.5)
-        case .subtle: return .appSoftIndigo.opacity(0.3)
+        case .primary:
+            return .clear
+        case .secondary:
+            return theme.border
+        case .destructive:
+            return theme.destructive.opacity(0.45)
+        case .subtle:
+            return theme.accentSecondary.opacity(0.28)
         }
     }
 
@@ -51,9 +64,11 @@ struct PillButton: View {
                     Image(systemName: leadingIcon)
                         .font(.system(size: ScreenScale.font(16), weight: .bold))
                 }
+
                 Text(title)
                     .font(.system(size: ScreenScale.font(15), weight: .bold))
                     .tracking(-0.3)
+
                 if let trailingIcon = trailingIcon {
                     Image(systemName: trailingIcon)
                         .font(.system(size: ScreenScale.font(16), weight: .bold))
@@ -69,35 +84,34 @@ struct PillButton: View {
                 Capsule()
                     .stroke(borderColor, lineWidth: style == .primary ? 0 : 1)
             )
-            .opacity(isDisabled ? 0.4 : 1.0)
+            .opacity(isDisabled ? 0.45 : 1.0)
         }
         .disabled(isDisabled)
         .buttonStyle(ScaleButtonStyle())
-        .shadow(
-            color: shadowColor,
-            radius: hasShadow ? 12 : 0,
-            x: 0,
-            y: 0
-        )
+        .shadow(color: shadowColor, radius: hasShadow ? 14 : 0, x: 0, y: 0)
     }
 
     private var hasShadow: Bool {
         switch style {
-        case .primary, .subtle: return true
-        default: return false
+        case .primary, .subtle:
+            return true
+        default:
+            return false
         }
     }
 
     private var shadowColor: Color {
         switch style {
-        case .primary: return Color.appPrimary.opacity(0.2)
-        case .subtle: return Color.appSoftIndigo.opacity(0.15)
-        default: return .clear
+        case .primary:
+            return theme.accent.opacity(0.35)
+        case .subtle:
+            return theme.accentSecondary.opacity(0.28)
+        default:
+            return .clear
         }
     }
 }
 
-// MARK: - Scale Button Style
 struct ScaleButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label

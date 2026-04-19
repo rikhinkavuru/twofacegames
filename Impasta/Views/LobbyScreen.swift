@@ -5,11 +5,12 @@ import UIKit
 
 struct LobbyScreen: View {
     @ObservedObject var viewModel: GameViewModel
+    @Environment(\.theme) private var theme
+
     @State private var showSettings = false
     @State private var showCopiedFeedback = false
     @State private var lobbyTimer: Timer?
-    
-    // Local state for settings to ensure immediate UI feedback
+
     @State private var localDifficulty: Difficulty = .medium
     @State private var localClueRounds: Int = 1
     @State private var localImposterRandom: Bool = false
@@ -20,248 +21,337 @@ struct LobbyScreen: View {
     private var players: [Player] { viewModel.players }
     private var isHost: Bool { viewModel.isHost }
 
+    private var playerColumns: [GridItem] {
+        [GridItem(.adaptive(minimum: ScreenScale.width(156), maximum: .infinity), spacing: ScreenScale.width(14))]
+    }
+
     var body: some View {
         ZStack {
-            Color.white.ignoresSafeArea()
+            LobbyAmbientBackground()
 
             if let game = viewModel.game {
-                VStack(spacing: 0) {
-                    // Header (Left Aligned)
-                    VStack(alignment: .leading, spacing: 0) {
-                        HStack(alignment: .top) {
-                            VStack(alignment: .leading, spacing: 0) {
-                                Text("GAME CODE")
-                                    .font(.system(size: ScreenScale.font(11), weight: .medium))
-                                    .foregroundColor(.black.opacity(0.5))
-                                    .tracking(3)
-                                    .scaledFrame(height: 34)
-
-                                Text(game.code)
-                                    .font(.system(size: ScreenScale.font(32), weight: .bold, design: .monospaced))
-                                    .tracking(8)
-                                    .foregroundColor(.black)
-                                    .scaledPadding(.top, 4.0)
-                            }
-                            
-                            Spacer()
-                            
-                            HStack(spacing: 16) {
-                                // Copy Button
-                                Button {
-                                    copyToClipboard(text: game.code)
-                                    // Add haptic feedback
-                                    #if canImport(UIKit)
-                                    #if os(iOS)
-                                    let impactFeedback = UIImpactFeedbackGenerator(style: .light)
-                                    impactFeedback.prepare()
-                                    impactFeedback.impactOccurred()
-                                    #endif
-                                    #endif
-                                    withAnimation {
-                                        showCopiedFeedback = true
-                                    }
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                                        withAnimation {
-                                            showCopiedFeedback = false
-                                        }
-                                    }
-                                } label: {
-                                    HStack(spacing: 6) {
-                                        Image(systemName: showCopiedFeedback ? "checkmark.circle.fill" : "doc.on.doc.fill")
-                                        if showCopiedFeedback {
-                                            Text("COPIED")
-                                                .font(.system(size: ScreenScale.font(10), weight: .medium))
-                                        }
-                                    }
-                                    .scaledPadding(.horizontal, 12.0)
-                                    .scaledPadding(.vertical, 8.0)
-                                    .background(showCopiedFeedback ? Color.appSoftSage.opacity(0.1) : Color.appSoftIndigo.opacity(0.1))
-                                    .foregroundColor(showCopiedFeedback ? .appSoftSage : .appSoftIndigo)
-                                    .clipShape(Capsule())
-                                }
-                                
-                                // Return Home Button
-                                Button {
-                                    viewModel.exitGame()
-                                } label: {
-                                    Image(systemName: "house.fill")
-                                        .font(.system(size: ScreenScale.font(18)))
-                                        .foregroundColor(.black.opacity(0.5))
-                                        .scaledPadding(.all, 8.0)
-                                        .background(Color.black.opacity(0.05))
-                                        .clipShape(Circle())
-                                }
-                            }
-                        }
-                        
-                        Text("PLAYERS (\(players.count))")
-                            .font(.system(size: ScreenScale.font(11), weight: .medium))
-                            .foregroundColor(.black.opacity(0.3))
-                            .tracking(3)
-                            .scaledPadding(.top, 40.0)
+                ScrollView(showsIndicators: false) {
+                    VStack(spacing: ScreenScale.height(18)) {
+                        headerCard(game: game)
+                        playersSection
                     }
-                    .scaledPadding(.horizontal, 32.0)
-                    .scaledPadding(.top, 20.0)
-                    .scaledPadding(.bottom, 20.0)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-
-                    // Player List
-                    ScrollView {
-                        VStack(alignment: .leading, spacing: 20) {
-                            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
-                                ForEach(players) { player in
-                                    HStack(spacing: 12) {
-                                        Circle()
-                                            .fill(player.isHost ? Color.appSoftAmber.opacity(0.15) : Color.appSoftIndigo.opacity(0.1))
-                                            .scaledFrame(width: 32, height: 32)
-                                            .overlay(
-                                                Text(String(player.name.prefix(1)).uppercased())
-                                                    .font(.system(size: ScreenScale.font(14), weight: .medium))
-                                                    .foregroundColor(player.isHost ? .appSoftAmber : .appSoftIndigo)
-                                            )
-
-                                        Text(player.name)
-                                            .font(.system(size: ScreenScale.font(15), weight: .medium))
-                                            .foregroundColor(.black)
-                                            .lineLimit(1)
-
-                                        if player.isHost {
-                                            Image(systemName: "crown.fill")
-                                                .font(.system(size: ScreenScale.font(10)))
-                                                .foregroundColor(.appSoftAmber)
-                                        }
-                                        
-                                        Spacer()
-                                        
-                                        // Kick button (host only, can't kick self)
-                                        if isHost && !player.isHost {
-                                            Button {
-                                                Task { await viewModel.kickPlayer(playerId: player.id) }
-                                            } label: {
-                                                Image(systemName: "xmark.circle.fill")
-                                                    .font(.system(size: ScreenScale.font(16)))
-                                                    .foregroundColor(.appDestructive.opacity(0.5))
-                                            }
-                                        }
-                                    }
-                                    .scaledPadding(.all, 16.0)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .background(Color.white)
-                                    .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-                                    .premiumShadow()
-                                }
-                            }
-                            .scaledPadding(.horizontal, 32.0)
-                        }
-                    }
-
-                    // Bottom Controls Area
-                    VStack(spacing: 0) {
-                        if isHost {
-                            // Settings Toggle Button
-                            Button {
-                                // Add haptic feedback
-                                #if canImport(UIKit)
-                                #if os(iOS)
-                                let impactFeedback = UIImpactFeedbackGenerator(style: .light)
-                                impactFeedback.prepare()
-                                impactFeedback.impactOccurred()
-                                #endif
-                                #endif
-                                withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) { showSettings.toggle() }
-                            } label: {
-                                HStack(spacing: 8) {
-                                    Image(systemName: "gearshape.fill")
-                                        .foregroundColor(.appSoftIndigo)
-                                    Text("SETTINGS")
-                                    Image(systemName: showSettings ? "chevron.down" : "chevron.up")
-                                }
-                                .font(.system(size: ScreenScale.font(11), weight: .medium))
-                                .foregroundColor(.black.opacity(0.5))
-                                .tracking(3)
-                            }
-                            .frame(maxWidth: .infinity)
-                            .scaledFrame(height: 60)
-                            .background(Color.white)
-                            
-                            if showSettings {
-                                settingsPanel
-                                    .transition(.move(edge: .bottom).combined(with: .opacity))
-                            }
-                            
-                            // Start Button
-                            Button {
-                                // Add haptic feedback
-                                #if canImport(UIKit)
-                                #if os(iOS)
-                                let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
-                                impactFeedback.prepare()
-                                impactFeedback.impactOccurred()
-                                #endif
-                                #endif
-                                Task { await viewModel.startGame() }
-                            } label: {
-                                HStack(spacing: 12) {
-                                    Text("START GAME")
-                                        .font(.system(size: ScreenScale.font(14), weight: .medium))
-                                        .tracking(1)
-                                    Image(systemName: "play.fill")
-                                        .font(.system(size: ScreenScale.font(16)))
-                                }
-                                .frame(maxWidth: .infinity)
-                                .scaledPadding(.vertical, 20.0)
-                                .background(players.count < 3 ? Color.black.opacity(0.1) : Color.black)
-                                .foregroundColor(.white)
-                                .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
-                                .shadow(color: Color.black.opacity(0.1), radius: 12, x: 0, y: 4)
-                            }
-                            .disabled(players.count < 3)
-                            .scaledPadding(.horizontal, 32.0)
-                            .scaledPadding(.bottom, 20.0)
-                            
-                            if players.count < 3 {
-                                Text("Need at least 3 players to start")
-                                    .font(.system(size: ScreenScale.font(10), weight: .medium))
-                                    .foregroundColor(.appDestructive.opacity(0.6))
-                                    .scaledPadding(.bottom, 20.0)
-                            }
-                        } else {
-                            WaitingIndicator(message: "Waiting for host to start")
-                                .scaledPadding(.vertical, 20.0)
-                        }
-                    }
-                    .background(Color.white)
+                    .padding(.horizontal, ScreenScale.width(20))
+                    .padding(.top, ScreenScale.height(18))
+                    .padding(.bottom, ScreenScale.height(showSettings && isHost ? 340 : 200))
+                }
+                .safeAreaInset(edge: .bottom) {
+                    bottomControls
+                        .padding(.horizontal, ScreenScale.width(16))
+                        .padding(.bottom, ScreenScale.height(12))
                 }
                 .onAppear {
-                    localDifficulty = game.difficultyEnum
-                    localClueRounds = game.clueRounds
-                    localImposterRandom = game.imposterRandom
-                    localImposterCount = game.imposterCount
-                    localImposterMin = game.imposterMin
-                    localImposterMax = game.imposterMax
-                    
-                    // Periodic refresh to ensure lobby stays synced
-                    lobbyTimer?.invalidate()
-                    lobbyTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { timer in
-                        Task { @MainActor in
-                            if game.phase == .lobby {
-                                await viewModel.refreshState()
-                            } else {
-                                timer.invalidate()
-                            }
-                        }
-                    }
+                    syncLocalState(with: game)
+                    startLobbyTimer()
                 }
                 .onDisappear {
-                    lobbyTimer?.invalidate()
-                    lobbyTimer = nil
+                    stopLobbyTimer()
+                }
+                .onChange(of: viewModel.game) { _, newGame in
+                    guard let newGame else { return }
+                    syncLocalState(with: newGame)
+                }
+            }
+        }
+        .animation(.smoothSpring, value: showSettings)
+    }
+
+    private func headerCard(game: Game) -> some View {
+        VStack(alignment: .leading, spacing: ScreenScale.height(18)) {
+            HStack(alignment: .top, spacing: ScreenScale.width(12)) {
+                VStack(alignment: .leading, spacing: ScreenScale.height(8)) {
+                    Text("Live Lobby")
+                        .font(.system(size: ScreenScale.font(11), weight: .bold, design: .rounded))
+                        .foregroundColor(theme.accentSecondary)
+                        .tracking(2.8)
+
+                    Text("Keep the room locked in.")
+                        .font(.system(size: ScreenScale.font(28), weight: .black, design: .rounded))
+                        .foregroundColor(theme.textPrimary)
+                        .fixedSize(horizontal: false, vertical: true)
+
+                    Text(isHost ? "Tune settings, manage players, then launch when everyone is ready." : "Share the code, watch the roster fill up, and wait for the host to launch.")
+                        .font(.system(size: ScreenScale.font(14), weight: .medium, design: .rounded))
+                        .foregroundColor(theme.textSecondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+
+                Spacer(minLength: 0)
+
+                Button {
+                    viewModel.exitGame()
+                } label: {
+                    Image(systemName: "house.fill")
+                        .font(.system(size: ScreenScale.font(18), weight: .bold))
+                        .foregroundColor(theme.textPrimary)
+                        .padding(14)
+                        .background(theme.surfaceElevated.opacity(0.95))
+                        .clipShape(Circle())
+                        .overlay(
+                            Circle()
+                                .stroke(theme.border.opacity(0.6), lineWidth: 1)
+                        )
+                }
+                .buttonStyle(ScaleButtonStyle())
+            }
+
+            VStack(alignment: .leading, spacing: ScreenScale.height(14)) {
+                Text("Game Code")
+                    .font(.system(size: ScreenScale.font(11), weight: .bold, design: .rounded))
+                    .foregroundColor(theme.textSecondary.opacity(0.88))
+                    .tracking(2.4)
+
+                HStack(spacing: ScreenScale.width(12)) {
+                    Text(game.code)
+                        .font(.system(size: ScreenScale.font(34), weight: .black, design: .monospaced))
+                        .tracking(6)
+                        .foregroundStyle(
+                            LinearGradient(
+                                colors: [theme.textPrimary, theme.accent, theme.accentSecondary],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        )
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.7)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+
+                    Button {
+                        copyCode(game.code)
+                    } label: {
+                        VStack(spacing: ScreenScale.height(4)) {
+                            Image(systemName: showCopiedFeedback ? "checkmark.circle.fill" : "doc.on.doc.fill")
+                                .font(.system(size: ScreenScale.font(18), weight: .bold))
+                            Text(showCopiedFeedback ? "Copied" : "Copy")
+                                .font(.system(size: ScreenScale.font(10), weight: .bold, design: .rounded))
+                                .tracking(1.2)
+                        }
+                        .foregroundColor(showCopiedFeedback ? theme.success : theme.textPrimary)
+                        .padding(.horizontal, ScreenScale.width(14))
+                        .padding(.vertical, ScreenScale.height(10))
+                        .background((showCopiedFeedback ? theme.success : theme.accent).opacity(0.14))
+                        .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 18, style: .continuous)
+                                .stroke((showCopiedFeedback ? theme.success : theme.accent).opacity(0.35), lineWidth: 1)
+                        )
+                    }
+                    .buttonStyle(ScaleButtonStyle())
+                    .if(showCopiedFeedback) { view in
+                        view.neonGlow(color: theme.success)
+                    }
+                }
+                .padding(.horizontal, ScreenScale.width(18))
+                .padding(.vertical, ScreenScale.height(18))
+                .frame(maxWidth: .infinity)
+                .background(theme.surfaceElevated.opacity(0.95))
+                .clipShape(RoundedRectangle(cornerRadius: 26, style: .continuous))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 26, style: .continuous)
+                        .stroke(theme.border.opacity(0.75), lineWidth: 1)
+                )
+                .neonGlow(color: theme.accent)
+            }
+
+            HStack(spacing: ScreenScale.width(12)) {
+                statPill(title: "Players", value: "\(players.count)", accent: theme.civilian)
+                statPill(title: "Host", value: isHost ? "You" : "Remote", accent: theme.host)
+                statPill(title: "Start", value: players.count >= 3 ? "Ready" : "Need 3", accent: players.count >= 3 ? theme.success : theme.warning)
+            }
+        }
+        .padding(.horizontal, ScreenScale.width(20))
+        .padding(.vertical, ScreenScale.height(22))
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(theme.surface.opacity(0.78))
+        .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: 30, style: .continuous)
+                .stroke(theme.border.opacity(0.65), lineWidth: 1)
+        )
+        .premiumShadow()
+    }
+
+    private var playersSection: some View {
+        VStack(alignment: .leading, spacing: ScreenScale.height(14)) {
+            HStack(alignment: .center) {
+                VStack(alignment: .leading, spacing: ScreenScale.height(6)) {
+                    Text("Players")
+                        .font(.system(size: ScreenScale.font(24), weight: .black, design: .rounded))
+                        .foregroundColor(theme.textPrimary)
+                    Text("\(players.count) connected to the lobby")
+                        .font(.system(size: ScreenScale.font(13), weight: .medium, design: .rounded))
+                        .foregroundColor(theme.textSecondary)
+                }
+                Spacer()
+            }
+
+            LazyVGrid(columns: playerColumns, spacing: ScreenScale.height(14)) {
+                ForEach(players) { player in
+                    playerCard(player)
                 }
             }
         }
     }
 
+    private func playerCard(_ player: Player) -> some View {
+        let accent = player.isHost ? theme.host : (player.id == viewModel.currentPlayerId ? theme.accent : theme.accentSecondary)
+
+        return VStack(alignment: .leading, spacing: ScreenScale.height(14)) {
+            HStack(alignment: .top) {
+                ZStack {
+                    Circle()
+                        .fill(accent.opacity(0.16))
+                        .scaledFrame(width: 44, height: 44)
+                    Text(String(player.name.prefix(1)).uppercased())
+                        .font(.system(size: ScreenScale.font(18), weight: .black, design: .rounded))
+                        .foregroundColor(accent)
+                }
+                .if(player.isHost || player.id == viewModel.currentPlayerId) { view in
+                    view.neonGlow(color: accent)
+                }
+
+                Spacer(minLength: 0)
+
+                VStack(alignment: .trailing, spacing: ScreenScale.height(6)) {
+                    if player.isHost {
+                        badge(title: "HOST", color: theme.host, icon: "crown.fill")
+                    }
+                    if player.id == viewModel.currentPlayerId {
+                        badge(title: "YOU", color: theme.accent, icon: "person.fill")
+                    }
+                }
+            }
+
+            VStack(alignment: .leading, spacing: ScreenScale.height(6)) {
+                Text(player.name)
+                    .font(.system(size: ScreenScale.font(18), weight: .bold, design: .rounded))
+                    .foregroundColor(theme.textPrimary)
+                    .lineLimit(1)
+
+                Text(player.isHost ? "Controls lobby settings" : "Ready in the queue")
+                    .font(.system(size: ScreenScale.font(12), weight: .medium, design: .rounded))
+                    .foregroundColor(theme.textSecondary)
+            }
+
+            if isHost && !player.isHost {
+                Button {
+                    Task { await viewModel.kickPlayer(playerId: player.id) }
+                } label: {
+                    HStack(spacing: ScreenScale.width(8)) {
+                        Image(systemName: "person.crop.circle.badge.xmark")
+                            .font(.system(size: ScreenScale.font(14), weight: .bold))
+                        Text("Remove")
+                            .font(.system(size: ScreenScale.font(12), weight: .bold, design: .rounded))
+                            .tracking(0.8)
+                    }
+                    .foregroundColor(theme.destructive)
+                    .padding(.horizontal, ScreenScale.width(12))
+                    .padding(.vertical, ScreenScale.height(10))
+                    .background(theme.destructive.opacity(0.12))
+                    .clipShape(Capsule())
+                    .overlay(
+                        Capsule()
+                            .stroke(theme.destructive.opacity(0.32), lineWidth: 1)
+                    )
+                }
+                .buttonStyle(ScaleButtonStyle())
+            }
+        }
+        .padding(.horizontal, ScreenScale.width(16))
+        .padding(.vertical, ScreenScale.height(16))
+        .frame(maxWidth: .infinity, minHeight: ScreenScale.height(160), alignment: .topLeading)
+        .background(theme.surface.opacity(player.id == viewModel.currentPlayerId ? 0.86 : 0.76))
+        .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: 24, style: .continuous)
+                .stroke((player.id == viewModel.currentPlayerId ? theme.accent : accent).opacity(0.32), lineWidth: 1)
+        )
+        .shadow(color: accent.opacity(player.id == viewModel.currentPlayerId ? 0.22 : 0.12), radius: 18, x: 0, y: 10)
+    }
+
+    private var bottomControls: some View {
+        VStack(spacing: ScreenScale.height(14)) {
+            if isHost {
+                HStack(spacing: ScreenScale.width(12)) {
+                    Button {
+                        #if canImport(UIKit)
+                        #if os(iOS)
+                        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                        #endif
+                        #endif
+                        withAnimation(.smoothSpring) {
+                            showSettings.toggle()
+                        }
+                    } label: {
+                        HStack(spacing: ScreenScale.width(10)) {
+                            Image(systemName: "slider.horizontal.3")
+                            Text(showSettings ? "Hide Settings" : "Show Settings")
+                            Image(systemName: showSettings ? "chevron.down" : "chevron.up")
+                        }
+                        .font(.system(size: ScreenScale.font(13), weight: .bold, design: .rounded))
+                        .foregroundColor(theme.textPrimary)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, ScreenScale.height(16))
+                        .background(theme.surfaceElevated.opacity(0.92))
+                        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                                .stroke(theme.border.opacity(0.65), lineWidth: 1)
+                        )
+                    }
+                    .buttonStyle(ScaleButtonStyle())
+                }
+
+                if showSettings {
+                    settingsPanel
+                        .transition(.move(edge: .bottom).combined(with: .opacity))
+                }
+
+                primaryStartButton
+
+                if players.count < 3 {
+                    Text("Need at least 3 players to start")
+                        .font(.system(size: ScreenScale.font(12), weight: .bold, design: .rounded))
+                        .foregroundColor(theme.warning)
+                        .tracking(0.4)
+                }
+            } else {
+                VStack(spacing: ScreenScale.height(10)) {
+                    WaitingIndicator(message: "Waiting for host to start")
+                    Text("The host can adjust settings and launch once the room is ready.")
+                        .font(.system(size: ScreenScale.font(12), weight: .medium, design: .rounded))
+                        .foregroundColor(theme.textSecondary)
+                        .multilineTextAlignment(.center)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.horizontal, ScreenScale.width(18))
+                .padding(.vertical, ScreenScale.height(18))
+                .background(theme.surface.opacity(0.76))
+                .clipShape(RoundedRectangle(cornerRadius: 26, style: .continuous))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 26, style: .continuous)
+                        .stroke(theme.border.opacity(0.65), lineWidth: 1)
+                )
+            }
+        }
+        .padding(.horizontal, ScreenScale.width(14))
+        .padding(.vertical, ScreenScale.height(14))
+        .frame(maxWidth: .infinity)
+        .background(theme.surface.opacity(0.82))
+        .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: 30, style: .continuous)
+                .stroke(theme.border.opacity(0.65), lineWidth: 1)
+        )
+        .premiumShadow()
+    }
+
     private var settingsPanel: some View {
-        VStack(spacing: 20) {
+        VStack(spacing: ScreenScale.height(18)) {
             SettingsRow(label: "Difficulty") {
                 AppSegmentedControl(
                     options: Difficulty.allCases,
@@ -303,7 +393,7 @@ struct LobbyScreen: View {
             }
 
             SettingsRow(label: "Imposters") {
-                VStack(spacing: 12) {
+                VStack(spacing: ScreenScale.height(14)) {
                     Toggle(isOn: Binding(
                         get: { localImposterRandom },
                         set: { newValue in
@@ -311,52 +401,210 @@ struct LobbyScreen: View {
                             updateSettings()
                         }
                     )) {
-                        Text("Randomize Count")
-                            .font(.system(size: ScreenScale.font(13), weight: .medium))
+                        VStack(alignment: .leading, spacing: ScreenScale.height(4)) {
+                            Text("Randomize Count")
+                                .font(.system(size: ScreenScale.font(14), weight: .bold, design: .rounded))
+                                .foregroundColor(theme.textPrimary)
+                            Text("Let the lobby draw a range of possible imposters.")
+                                .font(.system(size: ScreenScale.font(11), weight: .medium, design: .rounded))
+                                .foregroundColor(theme.textSecondary)
+                        }
                     }
-                    .tint(.appSoftIndigo)
+                    .tint(theme.accent)
+                    .padding(.horizontal, ScreenScale.width(16))
+                    .padding(.vertical, ScreenScale.height(14))
+                    .background(theme.surfaceElevated.opacity(0.9))
+                    .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
 
                     if localImposterRandom {
-                        HStack(spacing: 12) {
-                            StepperField(label: "Min", value: Binding(
-                                get: { localImposterMin },
-                                set: { newMin in 
-                                    localImposterMin = newMin
-                                    // Ensure max is at least min
-                                    if localImposterMax < newMin {
-                                        localImposterMax = newMin
+                        HStack(spacing: ScreenScale.width(12)) {
+                            StepperField(
+                                label: "Min",
+                                value: Binding(
+                                    get: { localImposterMin },
+                                    set: { newMin in
+                                        localImposterMin = newMin
+                                        if localImposterMax < newMin {
+                                            localImposterMax = newMin
+                                        }
+                                        updateSettings()
                                     }
-                                    updateSettings()
-                                }
-                            ), range: 0...max(1, players.count - 1))
-                            StepperField(label: "Max", value: Binding(
-                                get: { localImposterMax },
-                                set: { newMax in 
-                                    localImposterMax = newMax
-                                    // Ensure min is at most max
-                                    if localImposterMin > newMax {
-                                        localImposterMin = newMax
+                                ),
+                                range: 0...max(1, players.count - 1)
+                            )
+
+                            StepperField(
+                                label: "Max",
+                                value: Binding(
+                                    get: { localImposterMax },
+                                    set: { newMax in
+                                        localImposterMax = newMax
+                                        if localImposterMin > newMax {
+                                            localImposterMin = newMax
+                                        }
+                                        updateSettings()
                                     }
-                                    updateSettings()
-                                }
-                            ), range: localImposterMin...max(1, players.count - 1))
+                                ),
+                                range: localImposterMin...max(1, players.count - 1)
+                            )
                         }
                     } else {
-                        StepperField(label: "Count", value: Binding(
-                            get: { localImposterCount },
-                            set: { newCount in 
-                                localImposterCount = newCount
-                                localImposterMin = newCount
-                                localImposterMax = newCount
-                                updateSettings()
-                            }
-                        ), range: 0...max(1, players.count - 1))
+                        StepperField(
+                            label: "Count",
+                            value: Binding(
+                                get: { localImposterCount },
+                                set: { newCount in
+                                    localImposterCount = newCount
+                                    localImposterMin = newCount
+                                    localImposterMax = newCount
+                                    updateSettings()
+                                }
+                            ),
+                            range: 0...max(1, players.count - 1)
+                        )
                     }
                 }
             }
         }
-        .scaledPadding(.all, 24.0)
-        .background(Color.appSecondary.opacity(0.5))
+        .padding(.horizontal, ScreenScale.width(16))
+        .padding(.vertical, ScreenScale.height(18))
+        .background(theme.surface.opacity(0.72))
+        .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: 24, style: .continuous)
+                .stroke(theme.border.opacity(0.6), lineWidth: 1)
+        )
+    }
+
+    private var primaryStartButton: some View {
+        Button {
+            #if canImport(UIKit)
+            #if os(iOS)
+            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+            #endif
+            #endif
+            Task { await viewModel.startGame() }
+        } label: {
+            HStack(spacing: ScreenScale.width(10)) {
+                Image(systemName: "play.fill")
+                Text("Start Game")
+                    .tracking(1.2)
+                Image(systemName: "sparkles")
+            }
+            .font(.system(size: ScreenScale.font(15), weight: .black, design: .rounded))
+            .foregroundColor(players.count < 3 ? theme.textSecondary : theme.textOnAccent)
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, ScreenScale.height(18))
+            .background(
+                LinearGradient(
+                    colors: players.count < 3
+                        ? [theme.surfaceElevated, theme.surfaceElevated]
+                        : [theme.accent, theme.accentSecondary],
+                    startPoint: .leading,
+                    endPoint: .trailing
+                )
+            )
+            .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
+            .overlay(
+                RoundedRectangle(cornerRadius: 22, style: .continuous)
+                    .stroke(players.count < 3 ? theme.border.opacity(0.65) : Color.white.opacity(0.18), lineWidth: 1)
+            )
+        }
+        .disabled(players.count < 3)
+        .buttonStyle(ScaleButtonStyle())
+        .if(players.count >= 3) { view in
+            view.neonGlow(color: theme.accent)
+        }
+    }
+
+    private func statPill(title: String, value: String, accent: Color) -> some View {
+        VStack(alignment: .leading, spacing: ScreenScale.height(6)) {
+            Text(title.uppercased())
+                .font(.system(size: ScreenScale.font(9), weight: .bold, design: .rounded))
+                .foregroundColor(theme.textSecondary)
+                .tracking(1.6)
+            Text(value)
+                .font(.system(size: ScreenScale.font(14), weight: .black, design: .rounded))
+                .foregroundColor(theme.textPrimary)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.horizontal, ScreenScale.width(12))
+        .padding(.vertical, ScreenScale.height(12))
+        .background(accent.opacity(0.14))
+        .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: 18, style: .continuous)
+                .stroke(accent.opacity(0.24), lineWidth: 1)
+        )
+    }
+
+    private func badge(title: String, color: Color, icon: String) -> some View {
+        HStack(spacing: ScreenScale.width(6)) {
+            Image(systemName: icon)
+            Text(title)
+        }
+        .font(.system(size: ScreenScale.font(10), weight: .bold, design: .rounded))
+        .foregroundColor(color)
+        .padding(.horizontal, ScreenScale.width(10))
+        .padding(.vertical, ScreenScale.height(6))
+        .background(color.opacity(0.14))
+        .clipShape(Capsule())
+        .overlay(
+            Capsule()
+                .stroke(color.opacity(0.22), lineWidth: 1)
+        )
+    }
+
+    private func copyCode(_ code: String) {
+        copyToClipboard(text: code)
+        #if canImport(UIKit)
+        #if os(iOS)
+        let impactFeedback = UIImpactFeedbackGenerator(style: .light)
+        impactFeedback.prepare()
+        impactFeedback.impactOccurred()
+        #endif
+        #endif
+
+        withAnimation(.smoothSpring) {
+            showCopiedFeedback = true
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            withAnimation(.smoothSpring) {
+                showCopiedFeedback = false
+            }
+        }
+    }
+
+    private func syncLocalState(with game: Game) {
+        localDifficulty = game.difficultyEnum
+        localClueRounds = game.clueRounds
+        localImposterRandom = game.imposterRandom
+        localImposterCount = game.imposterCount
+        localImposterMin = game.imposterMin
+        localImposterMax = game.imposterMax
+    }
+
+    @MainActor
+    private func startLobbyTimer() {
+        stopLobbyTimer()
+        let currentViewModel = viewModel
+        lobbyTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { timer in
+            guard currentViewModel.game?.phase == .lobby else {
+                timer.invalidate()
+                return
+            }
+
+            Task { @MainActor in
+                await currentViewModel.refreshState()
+            }
+        }
+    }
+
+    @MainActor
+    private func stopLobbyTimer() {
+        lobbyTimer?.invalidate()
+        lobbyTimer = nil
     }
 
     private func updateSettings() {
@@ -382,39 +630,111 @@ struct LobbyScreen: View {
 }
 
 struct StepperField: View {
+    @Environment(\.theme) private var theme
+
     let label: String
     @Binding var value: Int
     let range: ClosedRange<Int>
 
     var body: some View {
-        HStack {
-            Text(label)
-                .font(.system(size: ScreenScale.font(12), weight: .medium))
-            Spacer()
-            HStack(spacing: 15) {
-                Image(systemName: "minus.circle.fill")
-                    .foregroundColor(value > range.lowerBound ? .appSoftIndigo : .black.opacity(0.1))
-                    .onTapGesture {
-                        if value > range.lowerBound {
-                            value -= 1
-                        }
+        VStack(alignment: .leading, spacing: ScreenScale.height(12)) {
+            Text(label.uppercased())
+                .font(.system(size: ScreenScale.font(10), weight: .bold, design: .rounded))
+                .foregroundColor(theme.textSecondary)
+                .tracking(1.8)
+
+            HStack(spacing: ScreenScale.width(14)) {
+                stepButton(icon: "minus", enabled: value > range.lowerBound) {
+                    if value > range.lowerBound {
+                        value -= 1
                     }
-                
+                }
+
                 Text("\(value)")
-                    .font(.system(size: ScreenScale.font(14), weight: .medium))
-                    .frame(width: 20)
-                
-                Image(systemName: "plus.circle.fill")
-                    .foregroundColor(value < range.upperBound ? .appSoftIndigo : .black.opacity(0.1))
-                    .onTapGesture {
-                        if value < range.upperBound {
-                            value += 1
-                        }
+                    .font(.system(size: ScreenScale.font(18), weight: .black, design: .rounded))
+                    .foregroundColor(theme.textPrimary)
+                    .frame(maxWidth: .infinity)
+
+                stepButton(icon: "plus", enabled: value < range.upperBound) {
+                    if value < range.upperBound {
+                        value += 1
                     }
+                }
             }
         }
-        .scaledPadding(.all, 12.0)
-        .background(Color.white)
-        .clipShape(RoundedRectangle(cornerRadius: 10))
+        .padding(.horizontal, ScreenScale.width(14))
+        .padding(.vertical, ScreenScale.height(14))
+        .frame(maxWidth: .infinity)
+        .background(theme.surfaceElevated.opacity(0.92))
+        .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: 18, style: .continuous)
+                .stroke(theme.border.opacity(0.6), lineWidth: 1)
+        )
+    }
+
+    private func stepButton(icon: String, enabled: Bool, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Image(systemName: "\(icon).circle.fill")
+                .font(.system(size: ScreenScale.font(20), weight: .bold))
+                .foregroundColor(enabled ? theme.accent : theme.border)
+                .neonGlow(color: enabled ? theme.accent : .clear)
+        }
+        .disabled(!enabled)
+        .buttonStyle(ScaleButtonStyle())
+    }
+}
+
+private struct LobbyAmbientBackground: View {
+    @Environment(\.theme) private var theme
+    @State private var animate = false
+
+    var body: some View {
+        ZStack {
+            LinearGradient(
+                colors: [theme.background, theme.surfaceElevated.opacity(0.9), theme.background],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
+
+            GeometryReader { proxy in
+                let width = proxy.size.width
+                let height = proxy.size.height
+
+                Circle()
+                    .fill(glow(colors: [theme.accent.opacity(0.4), theme.accentSecondary.opacity(0.14), .clear]))
+                    .frame(width: width * 0.9, height: width * 0.9)
+                    .blur(radius: 26)
+                    .offset(x: animate ? width * 0.22 : -width * 0.14, y: animate ? -height * 0.22 : -height * 0.32)
+
+                Circle()
+                    .fill(glow(colors: [theme.success.opacity(0.28), theme.civilian.opacity(0.18), .clear]))
+                    .frame(width: width * 0.72, height: width * 0.72)
+                    .blur(radius: 22)
+                    .offset(x: animate ? -width * 0.18 : width * 0.14, y: animate ? height * 0.22 : height * 0.06)
+
+                Circle()
+                    .fill(glow(colors: [theme.host.opacity(0.24), theme.accent.opacity(0.14), .clear]))
+                    .frame(width: width * 0.46, height: width * 0.46)
+                    .blur(radius: 14)
+                    .offset(x: animate ? width * 0.14 : -width * 0.04, y: animate ? height * 0.56 : height * 0.4)
+            }
+            .ignoresSafeArea()
+
+            Rectangle()
+                .fill(.black.opacity(0.08))
+                .blendMode(.overlay)
+                .ignoresSafeArea()
+        }
+        .onAppear {
+            withAnimation(.easeInOut(duration: 10).repeatForever(autoreverses: true)) {
+                animate = true
+            }
+        }
+    }
+
+    private func glow(colors: [Color]) -> RadialGradient {
+        RadialGradient(colors: colors, center: .center, startRadius: 16, endRadius: 220)
     }
 }
