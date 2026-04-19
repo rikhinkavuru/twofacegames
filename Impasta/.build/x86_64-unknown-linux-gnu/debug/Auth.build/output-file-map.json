@@ -1,0 +1,201 @@
+{
+  "": {
+    "swift-dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/primary.swiftdeps"
+  },
+  "/home/runner/work/twofacegames/twofacegames/Impasta/.build/checkouts/supabase-swift/Sources/Auth/AuthAdmin.swift": {
+    "dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/AuthAdmin.d",
+    "object": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/AuthAdmin.swift.o",
+    "swiftmodule": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/AuthAdmin~partial.swiftmodule",
+    "swift-dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/AuthAdmin.swiftdeps",
+    "diagnostics": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/AuthAdmin.dia"
+  },
+  "/home/runner/work/twofacegames/twofacegames/Impasta/.build/checkouts/supabase-swift/Sources/Auth/AuthAdminOAuth.swift": {
+    "dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/AuthAdminOAuth.d",
+    "object": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/AuthAdminOAuth.swift.o",
+    "swiftmodule": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/AuthAdminOAuth~partial.swiftmodule",
+    "swift-dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/AuthAdminOAuth.swiftdeps",
+    "diagnostics": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/AuthAdminOAuth.dia"
+  },
+  "/home/runner/work/twofacegames/twofacegames/Impasta/.build/checkouts/supabase-swift/Sources/Auth/AuthClient.swift": {
+    "dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/AuthClient.d",
+    "object": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/AuthClient.swift.o",
+    "swiftmodule": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/AuthClient~partial.swiftmodule",
+    "swift-dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/AuthClient.swiftdeps",
+    "diagnostics": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/AuthClient.dia"
+  },
+  "/home/runner/work/twofacegames/twofacegames/Impasta/.build/checkouts/supabase-swift/Sources/Auth/AuthClientConfiguration.swift": {
+    "dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/AuthClientConfiguration.d",
+    "object": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/AuthClientConfiguration.swift.o",
+    "swiftmodule": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/AuthClientConfiguration~partial.swiftmodule",
+    "swift-dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/AuthClientConfiguration.swiftdeps",
+    "diagnostics": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/AuthClientConfiguration.dia"
+  },
+  "/home/runner/work/twofacegames/twofacegames/Impasta/.build/checkouts/supabase-swift/Sources/Auth/AuthError.swift": {
+    "dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/AuthError.d",
+    "object": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/AuthError.swift.o",
+    "swiftmodule": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/AuthError~partial.swiftmodule",
+    "swift-dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/AuthError.swiftdeps",
+    "diagnostics": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/AuthError.dia"
+  },
+  "/home/runner/work/twofacegames/twofacegames/Impasta/.build/checkouts/supabase-swift/Sources/Auth/AuthMFA.swift": {
+    "dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/AuthMFA.d",
+    "object": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/AuthMFA.swift.o",
+    "swiftmodule": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/AuthMFA~partial.swiftmodule",
+    "swift-dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/AuthMFA.swiftdeps",
+    "diagnostics": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/AuthMFA.dia"
+  },
+  "/home/runner/work/twofacegames/twofacegames/Impasta/.build/checkouts/supabase-swift/Sources/Auth/AuthStateChangeListener.swift": {
+    "dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/AuthStateChangeListener.d",
+    "object": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/AuthStateChangeListener.swift.o",
+    "swiftmodule": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/AuthStateChangeListener~partial.swiftmodule",
+    "swift-dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/AuthStateChangeListener.swiftdeps",
+    "diagnostics": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/AuthStateChangeListener.dia"
+  },
+  "/home/runner/work/twofacegames/twofacegames/Impasta/.build/checkouts/supabase-swift/Sources/Auth/Defaults.swift": {
+    "dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/Defaults.d",
+    "object": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/Defaults.swift.o",
+    "swiftmodule": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/Defaults~partial.swiftmodule",
+    "swift-dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/Defaults.swiftdeps",
+    "diagnostics": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/Defaults.dia"
+  },
+  "/home/runner/work/twofacegames/twofacegames/Impasta/.build/checkouts/supabase-swift/Sources/Auth/Deprecated.swift": {
+    "dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/Deprecated.d",
+    "object": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/Deprecated.swift.o",
+    "swiftmodule": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/Deprecated~partial.swiftmodule",
+    "swift-dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/Deprecated.swiftdeps",
+    "diagnostics": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/Deprecated.dia"
+  },
+  "/home/runner/work/twofacegames/twofacegames/Impasta/.build/checkouts/supabase-swift/Sources/Auth/Exports.swift": {
+    "dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/Exports.d",
+    "object": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/Exports.swift.o",
+    "swiftmodule": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/Exports~partial.swiftmodule",
+    "swift-dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/Exports.swiftdeps",
+    "diagnostics": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/Exports.dia"
+  },
+  "/home/runner/work/twofacegames/twofacegames/Impasta/.build/checkouts/supabase-swift/Sources/Auth/Internal/APIClient.swift": {
+    "dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/APIClient.d",
+    "object": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/APIClient.swift.o",
+    "swiftmodule": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/APIClient~partial.swiftmodule",
+    "swift-dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/APIClient.swiftdeps",
+    "diagnostics": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/APIClient.dia"
+  },
+  "/home/runner/work/twofacegames/twofacegames/Impasta/.build/checkouts/supabase-swift/Sources/Auth/Internal/CodeVerifierStorage.swift": {
+    "dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/CodeVerifierStorage.d",
+    "object": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/CodeVerifierStorage.swift.o",
+    "swiftmodule": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/CodeVerifierStorage~partial.swiftmodule",
+    "swift-dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/CodeVerifierStorage.swiftdeps",
+    "diagnostics": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/CodeVerifierStorage.dia"
+  },
+  "/home/runner/work/twofacegames/twofacegames/Impasta/.build/checkouts/supabase-swift/Sources/Auth/Internal/Constants.swift": {
+    "dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/Constants.d",
+    "object": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/Constants.swift.o",
+    "swiftmodule": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/Constants~partial.swiftmodule",
+    "swift-dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/Constants.swiftdeps",
+    "diagnostics": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/Constants.dia"
+  },
+  "/home/runner/work/twofacegames/twofacegames/Impasta/.build/checkouts/supabase-swift/Sources/Auth/Internal/Dependencies.swift": {
+    "dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/Dependencies.d",
+    "object": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/Dependencies.swift.o",
+    "swiftmodule": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/Dependencies~partial.swiftmodule",
+    "swift-dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/Dependencies.swiftdeps",
+    "diagnostics": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/Dependencies.dia"
+  },
+  "/home/runner/work/twofacegames/twofacegames/Impasta/.build/checkouts/supabase-swift/Sources/Auth/Internal/EventEmitter.swift": {
+    "dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/EventEmitter.d",
+    "object": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/EventEmitter.swift.o",
+    "swiftmodule": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/EventEmitter~partial.swiftmodule",
+    "swift-dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/EventEmitter.swiftdeps",
+    "diagnostics": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/EventEmitter.dia"
+  },
+  "/home/runner/work/twofacegames/twofacegames/Impasta/.build/checkouts/supabase-swift/Sources/Auth/Internal/FixedWidthInteger+Random.swift": {
+    "dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/FixedWidthInteger+Random.d",
+    "object": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/FixedWidthInteger+Random.swift.o",
+    "swiftmodule": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/FixedWidthInteger+Random~partial.swiftmodule",
+    "swift-dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/FixedWidthInteger+Random.swiftdeps",
+    "diagnostics": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/FixedWidthInteger+Random.dia"
+  },
+  "/home/runner/work/twofacegames/twofacegames/Impasta/.build/checkouts/supabase-swift/Sources/Auth/Internal/Helpers.swift": {
+    "dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/Helpers.d",
+    "object": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/Helpers.swift.o",
+    "swiftmodule": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/Helpers~partial.swiftmodule",
+    "swift-dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/Helpers.swiftdeps",
+    "diagnostics": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/Helpers.dia"
+  },
+  "/home/runner/work/twofacegames/twofacegames/Impasta/.build/checkouts/supabase-swift/Sources/Auth/Internal/JWK+RSA.swift": {
+    "dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/JWK+RSA.d",
+    "object": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/JWK+RSA.swift.o",
+    "swiftmodule": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/JWK+RSA~partial.swiftmodule",
+    "swift-dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/JWK+RSA.swiftdeps",
+    "diagnostics": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/JWK+RSA.dia"
+  },
+  "/home/runner/work/twofacegames/twofacegames/Impasta/.build/checkouts/supabase-swift/Sources/Auth/Internal/JWTAlgorithm.swift": {
+    "dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/JWTAlgorithm.d",
+    "object": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/JWTAlgorithm.swift.o",
+    "swiftmodule": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/JWTAlgorithm~partial.swiftmodule",
+    "swift-dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/JWTAlgorithm.swiftdeps",
+    "diagnostics": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/JWTAlgorithm.dia"
+  },
+  "/home/runner/work/twofacegames/twofacegames/Impasta/.build/checkouts/supabase-swift/Sources/Auth/Internal/Keychain.swift": {
+    "dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/Keychain.d",
+    "object": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/Keychain.swift.o",
+    "swiftmodule": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/Keychain~partial.swiftmodule",
+    "swift-dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/Keychain.swiftdeps",
+    "diagnostics": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/Keychain.dia"
+  },
+  "/home/runner/work/twofacegames/twofacegames/Impasta/.build/checkouts/supabase-swift/Sources/Auth/Internal/PKCE.swift": {
+    "dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/PKCE.d",
+    "object": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/PKCE.swift.o",
+    "swiftmodule": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/PKCE~partial.swiftmodule",
+    "swift-dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/PKCE.swiftdeps",
+    "diagnostics": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/PKCE.dia"
+  },
+  "/home/runner/work/twofacegames/twofacegames/Impasta/.build/checkouts/supabase-swift/Sources/Auth/Internal/SessionManager.swift": {
+    "dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/SessionManager.d",
+    "object": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/SessionManager.swift.o",
+    "swiftmodule": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/SessionManager~partial.swiftmodule",
+    "swift-dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/SessionManager.swiftdeps",
+    "diagnostics": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/SessionManager.dia"
+  },
+  "/home/runner/work/twofacegames/twofacegames/Impasta/.build/checkouts/supabase-swift/Sources/Auth/Internal/SessionStorage.swift": {
+    "dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/SessionStorage.d",
+    "object": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/SessionStorage.swift.o",
+    "swiftmodule": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/SessionStorage~partial.swiftmodule",
+    "swift-dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/SessionStorage.swiftdeps",
+    "diagnostics": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/SessionStorage.dia"
+  },
+  "/home/runner/work/twofacegames/twofacegames/Impasta/.build/checkouts/supabase-swift/Sources/Auth/Internal/URLOpener.swift": {
+    "dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/URLOpener.d",
+    "object": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/URLOpener.swift.o",
+    "swiftmodule": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/URLOpener~partial.swiftmodule",
+    "swift-dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/URLOpener.swiftdeps",
+    "diagnostics": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/URLOpener.dia"
+  },
+  "/home/runner/work/twofacegames/twofacegames/Impasta/.build/checkouts/supabase-swift/Sources/Auth/Storage/AuthLocalStorage.swift": {
+    "dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/AuthLocalStorage.d",
+    "object": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/AuthLocalStorage.swift.o",
+    "swiftmodule": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/AuthLocalStorage~partial.swiftmodule",
+    "swift-dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/AuthLocalStorage.swiftdeps",
+    "diagnostics": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/AuthLocalStorage.dia"
+  },
+  "/home/runner/work/twofacegames/twofacegames/Impasta/.build/checkouts/supabase-swift/Sources/Auth/Storage/KeychainLocalStorage.swift": {
+    "dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/KeychainLocalStorage.d",
+    "object": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/KeychainLocalStorage.swift.o",
+    "swiftmodule": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/KeychainLocalStorage~partial.swiftmodule",
+    "swift-dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/KeychainLocalStorage.swiftdeps",
+    "diagnostics": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/KeychainLocalStorage.dia"
+  },
+  "/home/runner/work/twofacegames/twofacegames/Impasta/.build/checkouts/supabase-swift/Sources/Auth/Storage/WinCredLocalStorage.swift": {
+    "dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/WinCredLocalStorage.d",
+    "object": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/WinCredLocalStorage.swift.o",
+    "swiftmodule": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/WinCredLocalStorage~partial.swiftmodule",
+    "swift-dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/WinCredLocalStorage.swiftdeps",
+    "diagnostics": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/WinCredLocalStorage.dia"
+  },
+  "/home/runner/work/twofacegames/twofacegames/Impasta/.build/checkouts/supabase-swift/Sources/Auth/Types.swift": {
+    "dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/Types.d",
+    "object": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/Types.swift.o",
+    "swiftmodule": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/Types~partial.swiftmodule",
+    "swift-dependencies": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/Types.swiftdeps",
+    "diagnostics": "/home/runner/work/twofacegames/twofacegames/Impasta/.build/x86_64-unknown-linux-gnu/debug/Auth.build/Types.dia"
+  }
+}
