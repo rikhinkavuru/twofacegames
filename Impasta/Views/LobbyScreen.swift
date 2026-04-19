@@ -590,12 +590,11 @@ struct LobbyScreen: View {
         stopLobbyTimer()
         let currentViewModel = viewModel
         lobbyTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { timer in
-            guard currentViewModel.game?.phase == .lobby else {
-                timer.invalidate()
-                return
-            }
-
             Task { @MainActor in
+                guard currentViewModel.game?.phase == .lobby else {
+                    timer.invalidate()
+                    return
+                }
                 await currentViewModel.refreshState()
             }
         }

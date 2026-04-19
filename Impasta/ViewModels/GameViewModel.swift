@@ -356,7 +356,7 @@ class GameViewModel: ObservableObject {
 
     // MARK: - Kick Player (Host only)
     func kickPlayer(playerId: String) async {
-        guard isHost, let game = game else { return }
+        guard isHost, game != nil else { return }
         // Don't allow kicking yourself
         guard playerId != currentPlayerId else { return }
         
